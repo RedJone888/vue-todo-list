@@ -1,0 +1,56 @@
+name: Deploy Vite+Vue3 to Vercel and GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # 当 main 分支有 push 操作时触发
+  pull_request:
+    branches:
+      - main # 当 main 分支有 pull request 时也触发 (可选，用于预览)
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project for Vercel
+        run: npm run build # 默认构建，base 为 '/'
+
+      # 部署到 Vercel
+      - name: Deploy to Vercel
+        if: github.event_name == 'push' # 仅在 push 事件时部署 Vercel
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          npm install -g vercel
+          vercel pull --yes --cwd ./dist --token=$VERCEL_TOKEN
+          vercel build --prod --cwd ./dist
+          vercel deploy --prebuilt --prod --cwd ./dist --token=$VERCEL_TOKEN
+
+      - name: Build project for GitHub Pages
+        if: github.event_name == 'push'
+        env:
+          DEPLOY_TARGET: 'github-pages' # 设置 DEPLOY_TARGET 环境变量
+        run: npm run build
+
+      # 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' # 仅在 push 事件时部署 GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # Vite 构建输出目录
+          branch: gh-pages # 推送到的分支
+          token: ${{ secrets.GITHUB_TOKEN }} # GitHub 提供的默认 token
+          commit_message: 'Deploy to GitHub Pages [skip ci]' # 可选的提交信息

@@ -37,7 +37,8 @@
 </template>
 <script>
 import { Delete } from '@element-plus/icons-vue'
-import { ref, computed, watch } from "vue";
+import { ElMessageBox } from 'element-plus'
+import { ref, computed, watch, nextTick } from "vue";
 export default {
   components: { Delete },
   setup() {
@@ -55,7 +56,7 @@ export default {
     }, { deep: true })
 
     //添加新任务
-    const addTodo = () => {
+    const addTodo = async () => {
       if (newTodo.value.trim()) {
         todos.value.push({
           id: Date.now(),
@@ -63,6 +64,15 @@ export default {
           completed: false
         })
         newTodo.value = ''
+      } else {
+        await nextTick();
+        ElMessageBox.confirm('请输入任务内容!', '提示', {
+          showCancelButton: false,
+          confirmButtonText: '确定',
+          showClose: true,
+          center: true,
+          type: 'warning'
+        })
       }
     }
 

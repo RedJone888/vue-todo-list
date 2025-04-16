@@ -1,5 +1,22 @@
-# Vue 3 + Vite
+# Vue To-Do List
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A simple to-do list application built with Vue 3, Vite, and Element Plus.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Features
+
+- Add new tasks
+- Mark tasks as completed
+- Filter tasks (all/active/completed)
+- Delete tasks
+- Clear all completed tasks
+
+## Demo
+
+- [Vercel Deployment](https://vue-todo-list-umber.vercel.app)
+- [GitHub Pages](https://redjone888.github.io/vue-todo-list/)
+
+## Project Setup
+
+```sh
+npm install
+```
