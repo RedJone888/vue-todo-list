@@ -17,8 +17,6 @@ A simple to-do list application built with Vue 3, Vite, and Element Plus.
 
 ## 添加点内容
 
-## 添加点内容
-
 ## Project Setup
 
 ```sh
