@@ -15,7 +15,7 @@
     </div>
 
     <el-card class="todo-list">
-      <el-checkbox-group v-model="completedTodos">
+      <el-checkbox-group v-model="completedTodos" v-if="filteredTodos.length">
         <div class="todo-item" v-for="todo in filteredTodos" :key="todo.id">
           <el-checkbox :value="todo.id">
             <span :class="{ 'completed': todo.completed }">{{ todo.text }}</span>
@@ -27,10 +27,13 @@
           </el-button>
         </div>
       </el-checkbox-group>
+      <el-alert v-else type="info" show-icon :closable="false" title="Reminder">
+        {{ filter === 'all' ? 'There are no tasks yet, add them now!' : `No ${filter} tasks yet` }}
+      </el-alert>
     </el-card>
 
     <div class="stats">
-      <span>{{ activeTodoCount }} items left</span>
+      <span>{{ activeTodoCount }} items left / total {{ todos.length }}</span>
       <el-button class="link-button" v-if="completedTodoCount > 0" @click="clearCompleted">Clear completed</el-button>
     </div>
   </div>
