@@ -31,9 +31,6 @@ jobs:
       # - name: Install dependencies
       #   run: npm install
 
-      - name: Install vite locally (推荐)
-        run: npm install vite
-
       - name: Build project for Vercel
         run: npm run build # 默认构建，base 为 '/'
 
