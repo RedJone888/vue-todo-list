@@ -31,21 +31,21 @@ jobs:
       # - name: Install dependencies
       #   run: npm install
 
-      - name: Build project for Vercel
-        run: npm run build # 默认构建，base 为 '/'
+      # - name: Build project for Vercel
+      #   run: npm run build # 默认构建，base 为 '/'
 
-      # 部署到 Vercel
-      - name: Deploy to Vercel
-        if: github.event_name == 'push' # 仅在 push 事件时部署 Vercel
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          npm install -g vercel
-          vercel pull --yes --cwd ./dist --token=$VERCEL_TOKEN
-          vercel build --prod --cwd ./dist
-          vercel deploy --prebuilt --prod --cwd ./dist --token=$VERCEL_TOKEN
+      # # 部署到 Vercel
+      # - name: Deploy to Vercel
+      #   if: github.event_name == 'push' # 仅在 push 事件时部署 Vercel
+      #   env:
+      #     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      #     VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      #     VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      #   run: |
+      #     npm install -g vercel
+      #     vercel pull --yes --cwd ./dist --token=$VERCEL_TOKEN
+      #     vercel build --prod --cwd ./dist
+      #     vercel deploy --prebuilt --prod --cwd ./dist --token=$VERCEL_TOKEN
 
       - name: Build project for GitHub Pages
         if: github.event_name == 'push'
